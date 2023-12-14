@@ -5,11 +5,11 @@ import javax.swing.*;
 
 public class InterfaceJogo extends JPanel implements KeyListener, ActionListener {
 
-  protected static final int larguradatela = 900;
-  protected static final int alturadatela = 900;
+  protected static final int larguradatela = 300;
+  protected static final int alturadatela = 300;
   protected static final int tamanhounidade = 30;
   protected static final int tamanhojogo = (larguradatela * alturadatela) / tamanhounidade;
-  protected static final int DELAY = 100;
+  protected static final int DELAY = 200;
   protected final int x[] = new int[tamanhojogo];
   protected final int y[] = new int[tamanhojogo];
   protected int macascomidas;
@@ -31,7 +31,6 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
   Random random;
 
   InterfaceJogo() {
-    // Construtor, define a resolução, cor do background, define o foco como default, adiciona a classse KeyListener e Joga para a tela inicial.
     this.setPreferredSize(new Dimension(larguradatela, alturadatela));
     this.setBackground(new java.awt.Color(0, 0, 0));
     this.setFocusable(true);
@@ -41,7 +40,7 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
   }
 
   public void telaInicial() {
-    // Remove os botões, inicio = true, rodando = false, seta o local onde os botões aparecem na tela, e adiciona o botão 1 (iniciar)
+    remove(botao2);
     remove(botao3);
     remove(botao4);
     remove(botao5);
@@ -51,6 +50,9 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
     botao.addActionListener(this);
     Player.showMessage();
     botao.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+    botao2.setBounds(105, 100, 90, 30);
+    botao2.addActionListener(this);
+    botao2.setBorder(BorderFactory.createRaisedSoftBevelBorder());
     botao3.setBounds(105, 150, 90, 30);
     botao3.addActionListener(this);
     botao3.setBorder(BorderFactory.createRaisedSoftBevelBorder());
@@ -64,7 +66,6 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
   }
 
   public void iniciarJogo() {
-    //Remove todos os botões, sai da tela inico e rodando = true faz aparecer as frutas e a cobra, inicia o jogo com o timer.
     remove(botao);
     remove(botao2);
     remove(botao3);
@@ -79,27 +80,27 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
   }
 
   public void novaFruta(int fruta) {
-    // Adiciona uma nova fruta vermelha em algum lugar aleatorio
+
     if (fruta == 1) {
       FrutaPrincipal.x = random.nextInt((int) (larguradatela / tamanhounidade)) * tamanhounidade;
       FrutaPrincipal.y = random.nextInt((int) (larguradatela / tamanhounidade)) * tamanhounidade;
+
     }
     if (fruta == 2) {
-      // Adiciona uma nova fruta amarela em algum lugar aleatorio
       FrutaAmarela.x = random.nextInt((int) (larguradatela / tamanhounidade)) * tamanhounidade;
       FrutaAmarela.y = random.nextInt((int) (larguradatela / tamanhounidade)) * tamanhounidade;
+
     }
 
   }
 
   public void moverCobra() {
-    // Faz o partescorpo seguir a cabeça, para cada partecorpo -1 da cabeça.
+
     for (int i = CobraJogo.partescorpo; i > 0; i--) {
       x[i] = x[i - 1];
       y[i] = y[i - 1];
     }
 
-    // Caso o usuario aperte W a cabeça da cobra sobe, S a cobra desce, D a cobra vai para a direita e A a cobra vai para a esquerda.
     switch (direction) {
       case 'U':
         y[0] = y[0] - tamanhounidade;
@@ -118,35 +119,36 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
   }
 
   public void paintComponent(Graphics g) {
-    // Puxa o método draw e usar o método paintComponet para dar cor e vida.
     super.paintComponent(g);
     draw(g);
   }
 
   public void draw(Graphics g) {
-    // Se Inicio == true então mostrar a mensgem na tela d inicio "Bem vindo ao jogo da cobra"
+
+    // Se Inicio == true então mostrar na tela
     if (inicio == true && rodando == false) {
       g.setColor(Color.red);
       g.drawString("Bem vindo ao jogo da cobra", 70, 100);
+
     }
 
     if (inicio == false && rodando == true) {
 
-      // Maça Principal é colorica com a cor vermelha e preenchida com o fillReact.
+      // Maça Princiapl
       g.setColor(Color.red);
       g.fillRect(FrutaPrincipal.x, FrutaPrincipal.y, tamanhounidade, tamanhounidade);
 
-      // Maça Amarela é colorica com a cor vermelha e preenchida com o fillReact.
-      g.setColor(Color.yellow);
+      // Maça Amarela
+      g.setColor(Color.YELLOW);
       g.fillRect(FrutaAmarela.x, FrutaAmarela.y, tamanhounidade, tamanhounidade);
 
-      //  Cobra
+      // Cobra
       for (int i = 0; i < CobraJogo.partescorpo; i++) {
-        // Cabeça Cobra é pintada com a cor verde em fillReact
+        // Cabeça Cobra
         if (i == 0) {
           g.setColor(Color.green);
           g.fillRect(x[i], y[i], tamanhounidade, tamanhounidade);
-        } // Corpo cobra é pitanda com a cor verde escuro em fillReact
+        } // Corpo cobra
         else {
           g.setColor(new Color(45, 180, 0));
           g.fillRect(x[i], y[i], tamanhounidade, tamanhounidade);
@@ -170,7 +172,8 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
     g.setColor(Color.red);
     g.setFont(new Font("Ita1", Font.ITALIC, 20));
     FontMetrics metricas4 = getFontMetrics(g.getFont());
-    g.drawString(Player.getNick() + macascomidas, (180 - metricas4.stringWidth(Player.getNick() + macascomidas)) / 2,80);
+    g.drawString(Player.getNick() + macascomidas, (180 - metricas4.stringWidth(Player.getNick() + macascomidas)) / 2,
+        80);
 
     // texto fim de jogo
     g.setColor(Color.green);
@@ -205,6 +208,7 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
         Player.salvarpontuacao();
         inicio = false;
         rodando = false;
+        // add(botao2);
         add(botao3);
         add(botao4);
         add(botao5);
@@ -216,6 +220,7 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
       Player.salvarpontuacao();
       inicio = false;
       rodando = false;
+      // add(botao2);
       add(botao3);
       add(botao4);
       add(botao5);
@@ -225,6 +230,7 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
       Player.salvarpontuacao();
       inicio = false;
       rodando = false;
+      // add(botao2);
       add(botao3);
       add(botao4);
       add(botao5);
@@ -234,6 +240,7 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
       Player.salvarpontuacao();
       inicio = false;
       rodando = false;
+      // add(botao2);
       add(botao3);
       add(botao4);
       add(botao5);
@@ -243,14 +250,7 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
       Player.salvarpontuacao();
       inicio = false;
       rodando = false;
-      add(botao3);
-      add(botao4);
-      add(botao5);
-    }
-
-    if (CobraJogo.partescorpo <= 1){
-      inicio = false;
-      rodando = false;
+      // add(botao2);
       add(botao3);
       add(botao4);
       add(botao5);
@@ -259,7 +259,6 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
   }
 
   public void actionPerformed(ActionEvent e) {
-    // Quando um dos botões forem apertados chamará os metodos. 
     if (e.getSource() == botao) {
       iniciarJogo();
     }
@@ -294,7 +293,6 @@ public class InterfaceJogo extends JPanel implements KeyListener, ActionListener
 
   @Override
   public void keyPressed(KeyEvent e) {
-    // Caso o usuario tecle durante o jogo rodando com w,a,s,d seta left, seta right, seta up, seta down ele se move.
     switch (e.getKeyCode()) {
       case KeyEvent.VK_LEFT:
         if (direction != 'R') {

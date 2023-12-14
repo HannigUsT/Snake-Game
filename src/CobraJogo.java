@@ -1,7 +1,7 @@
 public class CobraJogo{
     protected int x;
     protected int y;
-    protected int partescorpo = 4;
+    protected int partescorpo = 2;
 
     public CobraJogo(){
     }

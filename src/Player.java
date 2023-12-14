@@ -13,7 +13,7 @@ public class Player {
     protected String antigocont = "";
     protected String novocont = "";
 
-    File arquivo = new File("C:\\Users\\Gustavo Lopes\\Desktop\\SnakeGameFinal\\Save.txt");
+    File arquivo = new File("./src/Save.txt");
 
     public Player() {
 
@@ -41,10 +41,10 @@ public class Player {
     }
 
     public void visualizarPlayers() {
-
+        // C:\\Users\\Gustavo Lopes\\Desktop\\Save.txt
         JTextArea area = new JTextArea(10, 20);
         area.setEditable(false);
-            try (Reader texto = new FileReader("C:\\Users\\Gustavo Lopes\\Desktop\\SnakeGameFinal\\Save.txt")) {
+            try (Reader texto = new FileReader("./src/Save.txt")) {
                 area.read(texto, "1");
             } catch (Exception e) {
                 area.append(e.getMessage());
